@@ -197,3 +197,37 @@
         transform: translateY(0);
     }
 }
+
+
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem 2rem;
+        ul {
+            gap: 1rem;
+        }
+    }
+
+    // .contenido {
+    //     .saludo {
+    //         .textos {
+    //             max-width: 90vw;
+
+    //             h1 {
+    //                 font-size: 12vw;
+    //             }
+
+    //             .typing-demo {
+    //                 width: 90vw;
+    //             }
+
+    //             p {
+    //                 font-size: 3vw;
+
+    //                 &.info {
+    //                     font-size: 3.5vw;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+}
