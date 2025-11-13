@@ -1,6 +1,5 @@
-import { Component, signal, AfterViewInit, OnDestroy, HostBinding, ElementRef, ViewChild } from '@angular/core';
+import { Component, signal, AfterViewInit, OnDestroy, HostBinding, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import Lenis from '@studio-freight/lenis';
 import { Sobremi } from "./components/sobremi/sobremi";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,49 +10,43 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
-export class App implements AfterViewInit, OnDestroy {
+export class App implements OnInit, AfterViewInit, OnDestroy {
   protected readonly title = signal('cv');
   
   // Opción para activar/desactivar animaciones (cambiar a false para desarrollo)
-  protected readonly enableAnimations = false;
+  protected readonly enableAnimations = true;
   
   @HostBinding('class.animations-disabled') get animationsDisabled() {
     return !this.enableAnimations;
   }
   
   protected scrollBlocked = signal(true);
-  private lenis: Lenis | null = null;
+  private scrollPreventHandler?: (e: Event) => void;
+  private keydownPreventHandler?: (e: KeyboardEvent) => void;
   
   @ViewChild('contenido') contenido!: ElementRef<HTMLElement>;
 
+  ngOnInit() {
+    this.updateScrollBlock();
+    this.preventScrollEvents();
+  }
+
   ngAfterViewInit() {
-    // Registrar ScrollTrigger
     gsap.registerPlugin(ScrollTrigger);
     
-    this.initLenis();
-    
-    // Aplicar bloqueo inicial
     this.updateScrollBlock();
     
     if (this.enableAnimations) {
       setTimeout(() => {
         this.scrollBlocked.set(false);
         this.updateScrollBlock();
-        if (this.lenis) {
-          this.lenis.start();
-          this.startLenisRaf();
-          this.setupScrollTriggerProxy();
-        }
+        this.removeScrollPrevention();
       }, 3300);
     } else {
       setTimeout(() => {
         this.scrollBlocked.set(false);
         this.updateScrollBlock();
-        if (this.lenis) {
-          this.lenis.start();
-          this.startLenisRaf();
-          this.setupScrollTriggerProxy();
-        }
+        this.removeScrollPrevention();
       }, 0);
     }
   }
@@ -63,84 +56,77 @@ export class App implements AfterViewInit, OnDestroy {
       if (this.scrollBlocked()) {
         document.body.classList.add('scroll-blocked');
         document.documentElement.classList.add('scroll-blocked');
+        // Guardar la posición actual del scroll
+        const scrollY = window.scrollY;
+        document.body.style.top = `-${scrollY}px`;
       } else {
-        // Desbloquear el scroll y asegurar que funcione correctamente
+        // Desbloquear el scroll y restaurar la posición
+        const scrollY = document.body.style.top;
         document.body.classList.remove('scroll-blocked');
         document.documentElement.classList.remove('scroll-blocked');
-        // Asegurar que el scroll pueda funcionar normalmente después del desbloqueo
+        // Restaurar estilos
         document.body.style.position = '';
+        document.body.style.top = '';
         document.body.style.height = '';
         document.body.style.width = '';
         document.documentElement.style.position = '';
         document.documentElement.style.height = '';
         document.documentElement.style.width = '';
+        // Restaurar posición del scroll si había una guardada
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
       }
     }
   }
 
-  private initLenis() {
-    // Esperar a que el DOM esté completamente renderizado
-    setTimeout(() => {
-      // Configuración de Lenis para scroll suave en toda la página
-      this.lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        orientation: 'vertical',
-        gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 1,
-        touchMultiplier: 2,
-        infinite: false,
-      });
-
-      // Detener Lenis inicialmente si el scroll está bloqueado
-      if (this.scrollBlocked()) {
-        this.lenis.stop();
-      } else {
-        this.startLenisRaf();
+  private preventScrollEvents() {
+    if (typeof window !== 'undefined' && this.scrollBlocked()) {
+      // Solo agregar listeners si no existen ya
+      if (!this.scrollPreventHandler) {
+        this.scrollPreventHandler = (e: Event) => {
+          if (this.scrollBlocked()) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+        };
+        
+        // Prevenir scroll con rueda del mouse
+        window.addEventListener('wheel', this.scrollPreventHandler, { passive: false });
+        // Prevenir scroll con touch
+        window.addEventListener('touchmove', this.scrollPreventHandler, { passive: false });
       }
-    }, 100);
+      
+      // Prevenir scroll con teclado
+      if (!this.keydownPreventHandler) {
+        this.keydownPreventHandler = (e: KeyboardEvent) => {
+          if (this.scrollBlocked() && ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End', ' '].includes(e.key)) {
+            e.preventDefault();
+          }
+        };
+        window.addEventListener('keydown', this.keydownPreventHandler);
+      }
+    }
   }
 
-  private startLenisRaf() {
-    const raf = (time: number) => {
-      if (this.lenis && !this.scrollBlocked()) {
-        this.lenis.raf(time);
-        ScrollTrigger.update();
-        requestAnimationFrame(raf);
+  private removeScrollPrevention() {
+    if (typeof window !== 'undefined') {
+      if (this.scrollPreventHandler) {
+        window.removeEventListener('wheel', this.scrollPreventHandler);
+        window.removeEventListener('touchmove', this.scrollPreventHandler);
+        this.scrollPreventHandler = undefined;
       }
-    };
-    requestAnimationFrame(raf);
-  }
-  
-  private setupScrollTriggerProxy() {
-    // Configurar ScrollTrigger para que funcione con Lenis
-    ScrollTrigger.scrollerProxy(window, {
-      scrollTop: (value?: number) => {
-        if (value !== undefined) {
-          this.lenis?.scrollTo(value, { immediate: true });
-          return;
-        }
-        return this.lenis?.scroll || 0;
-      },
-      getBoundingClientRect: () => ({
-        top: 0,
-        left: 0,
-        width: window.innerWidth,
-        height: window.innerHeight
-      })
-    });
-    
-    // Actualizar ScrollTrigger cuando Lenis hace scroll
-    this.lenis?.on('scroll', ScrollTrigger.update);
+      if (this.keydownPreventHandler) {
+        window.removeEventListener('keydown', this.keydownPreventHandler);
+        this.keydownPreventHandler = undefined;
+      }
+    }
   }
 
   ngOnDestroy() {
     // Limpiar ScrollTrigger
     ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    
-    if (this.lenis) {
-      this.lenis.destroy();
-    }
+    // Remover event listeners
+    this.removeScrollPrevention();
   }
 }
