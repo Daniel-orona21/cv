@@ -127,10 +127,11 @@
     position: absolute;
     min-width: 100vw;
     max-width: 100vw;
-    max-height: 100vh;
     min-height: 100vh;
+      max-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    flex-direction: column;
     
     &.scroll-blocked {
         overflow-y: hidden;

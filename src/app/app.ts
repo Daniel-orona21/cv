@@ -1,10 +1,11 @@
 import { Component, signal, AfterViewInit, OnDestroy, HostBinding, ElementRef, ViewChild } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import Lenis from '@studio-freight/lenis';
+import { Sobremi } from "./components/sobremi/sobremi";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Sobremi],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
