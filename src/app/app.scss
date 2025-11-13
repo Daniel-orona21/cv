@@ -10,6 +10,32 @@
     overflow: hidden;
 }
 
+// Desactivar animaciones cuando la clase animations-disabled está presente
+:host.animations-disabled {
+    .header {
+        opacity: 1;
+        animation: none;
+    }
+    
+    .contenido {
+        .saludo {
+            .textos {
+                h1.typing-demo {
+                    animation: none;
+                    width: 65vw;
+                    border-right: none;
+                }
+                
+                p {
+                    opacity: 1;
+                    transform: translateY(0);
+                    animation: none;
+                }
+            }
+        }
+    }
+}
+
 .header {
     background-color: rgb(0, 0, 0);
     z-index: 99;
@@ -87,6 +113,11 @@
     min-height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    
+    &.scroll-blocked {
+        overflow-y: hidden;
+        touch-action: none;
+    }
 
      &::-webkit-scrollbar {
     width: 6px;
@@ -107,7 +138,7 @@
 
     .saludo {
         background-color: white;
-        height: 100vh;
+        min-height: 120vh;
         width: 100%;
         overflow: hidden;
         display: flex;
