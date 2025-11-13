@@ -1,5 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Onest:wght@100..900&display=swap');
 
+// Estilos para Lenis scroll suave
+.contenido.lenis,
+.contenido.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.contenido.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.contenido.lenis-stopped {
+  overflow: hidden;
+}
+
+.contenido.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
 .cuerpo {
     width: 100%;
     max-width: 100vw;
