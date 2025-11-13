@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Onest", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+@font-face {
+  font-family: 'Juana Sans';
+  src: url('./assets/fuentes/juana-thin.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+    
+}
