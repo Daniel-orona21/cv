@@ -20,6 +20,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 1rem 5rem;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: 2s; // Aparece después de que termine la animación del h1
 
     .logo {
         font-family: "Major Mono Display", monospace;
@@ -123,14 +126,74 @@
             margin-bottom: .7rem;
         }
 
+       .typing-demo {
+        width: 65vw;
+        animation: typing 2s steps(21), blink .7s step-end 6 normal forwards;
+        white-space: nowrap;
+        overflow: hidden;
+        border-right: 3px solid;
+}
+
+@keyframes typing {
+  from {
+    width: 0
+  }
+}
+    
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+  100% {
+    border-color: transparent;
+  }
+}
+
         p {
             font-size: 1.5vw;
-        }
-        .info {
-            margin-top: .7rem;
-            font-size: 1.7vw;   
-            color: rgba(0, 0, 0, 0.503);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+            
+            &:nth-child(2) {
+                animation-delay: 2.2s; 
+            }
+            
+            &:nth-child(3) {
+                animation-delay: 2.4s; 
+            }
+            
+            &:nth-child(4) {
+                animation-delay: 2.6s;
+            }
+            
+            &.info {
+                margin-top: .7rem;
+                font-size: 1.7vw;   
+                color: rgba(0, 0, 0, 0.503);
+            }
         }
        }
+    }
+}
+
+// Animaciones para aparecer elementos
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
