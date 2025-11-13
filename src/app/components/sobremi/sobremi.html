@@ -1,6 +1,6 @@
-<div class="cuerpo">
+<div class="cuerpo" #cuerpo>
     <div class="side izq">
-        <div class="textos">
+        <div class="textos" #textos>
             <h1 class="uno">S</h1>
             <h1 class="dos">o</h1>
             <h1 class="tres">bre</h1>
@@ -8,16 +8,18 @@
             <h1 class="uno"> i</h1>
         </div>
        <p>
-        Soy Daniel, desarrollador web enfocado en frontend y diseño UX/UI. También tengo experiencia en backend y en el desarrollo de aplicaciones móviles, lo que me permite trabajar proyectos de forma integral, desde la idea visual hasta la parte técnica.
+        <app-text-reveal-simple [text]="'Soy Daniel, desarrollador web enfocado en frontend y diseño UX/UI. También tengo experiencia en backend y en el desarrollo de aplicaciones móviles, lo que me permite trabajar proyectos de forma integral, desde la idea visual hasta la parte técnica.'"></app-text-reveal-simple>
         </p>
         <p>
-        Soy estudiante de la carrera de Tecnologías de la Información, en el área de Gestión y Desarrollo de Software con título de Técnico Superior Universitario.
+        <app-text-reveal-simple [text]="'Soy estudiante de la carrera de Tecnologías de la Información, en el área de Gestión y Desarrollo de Software con título de Técnico Superior Universitario.'"></app-text-reveal-simple>
         </p>
     </div>
     <div class="side der">
         <div class="contenedor">
-            <div class="imagen"></div>
-            <div class="nombre">
+            <div class="imagen" #imagen>
+                <img src="images/yo.heic" alt="Daniel Orona" #imgElement>
+            </div>
+            <div class="nombre" #nombre>
                 <!-- <p class="linea">-</p> -->
                 <p class="daniel">—Daniel Orona</p>
                 <p class="exp">+2 años de experiencia</p>

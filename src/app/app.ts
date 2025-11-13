@@ -2,6 +2,8 @@ import { Component, signal, AfterViewInit, OnDestroy, HostBinding, ElementRef, V
 import { RouterOutlet } from '@angular/router';
 import Lenis from '@studio-freight/lenis';
 import { Sobremi } from "./components/sobremi/sobremi";
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 @Component({
   selector: 'app-root',
@@ -21,8 +23,13 @@ export class App implements AfterViewInit, OnDestroy {
   
   protected scrollBlocked = signal(true);
   private lenis: Lenis | null = null;
+  
+  @ViewChild('contenido') contenido!: ElementRef<HTMLElement>;
 
   ngAfterViewInit() {
+    // Registrar ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+    
     this.initLenis();
     
     // Aplicar bloqueo inicial
@@ -35,6 +42,7 @@ export class App implements AfterViewInit, OnDestroy {
         if (this.lenis) {
           this.lenis.start();
           this.startLenisRaf();
+          this.setupScrollTriggerProxy();
         }
       }, 3300);
     } else {
@@ -44,6 +52,7 @@ export class App implements AfterViewInit, OnDestroy {
         if (this.lenis) {
           this.lenis.start();
           this.startLenisRaf();
+          this.setupScrollTriggerProxy();
         }
       }, 0);
     }
@@ -97,13 +106,39 @@ export class App implements AfterViewInit, OnDestroy {
     const raf = (time: number) => {
       if (this.lenis && !this.scrollBlocked()) {
         this.lenis.raf(time);
+        ScrollTrigger.update();
         requestAnimationFrame(raf);
       }
     };
     requestAnimationFrame(raf);
   }
+  
+  private setupScrollTriggerProxy() {
+    // Configurar ScrollTrigger para que funcione con Lenis
+    ScrollTrigger.scrollerProxy(window, {
+      scrollTop: (value?: number) => {
+        if (value !== undefined) {
+          this.lenis?.scrollTo(value, { immediate: true });
+          return;
+        }
+        return this.lenis?.scroll || 0;
+      },
+      getBoundingClientRect: () => ({
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    });
+    
+    // Actualizar ScrollTrigger cuando Lenis hace scroll
+    this.lenis?.on('scroll', ScrollTrigger.update);
+  }
 
   ngOnDestroy() {
+    // Limpiar ScrollTrigger
+    ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    
     if (this.lenis) {
       this.lenis.destroy();
     }

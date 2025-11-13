@@ -58,6 +58,7 @@
 
     .side {
         height: 75%;
+        max-height: 75%;
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -74,13 +75,18 @@
             display: flex;
 
             .imagen {
-                background-image: url('../../../assets/images/yo.heic');
                 flex: 1 !important;
-                background-size: cover;
-                background-position: center 50%;
                 width: 100%;
-                background-size: 130%;
                 display: flex;
+                position: relative;
+                overflow: hidden;
+
+                img {
+                    display: flex;
+                    position: absolute;
+
+                    width: 100%;
+                }
             }
 
             .nombre {
@@ -106,6 +112,7 @@
             
             .exp {
                 font-size: 1rem;
+                margin-top: 10px;
                 font-family: "Zalando Sans Expanded", sans-serif;
                 font-weight: 100;
             }
