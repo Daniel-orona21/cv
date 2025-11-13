@@ -12,13 +12,12 @@ import { Sobremi } from "./components/sobremi/sobremi";
 export class App implements AfterViewInit, OnDestroy {
   protected readonly title = signal('cv');
   
+  // Opción para activar/desactivar animaciones (cambiar a false para desarrollo)
   protected readonly enableAnimations = false;
   
   @HostBinding('class.animations-disabled') get animationsDisabled() {
     return !this.enableAnimations;
   }
-  
-  @ViewChild('contenido', { static: false }) contenidoRef!: ElementRef<HTMLDivElement>;
   
   protected scrollBlocked = signal(true);
   private lenis: Lenis | null = null;
@@ -26,9 +25,13 @@ export class App implements AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     this.initLenis();
     
+    // Aplicar bloqueo inicial
+    this.updateScrollBlock();
+    
     if (this.enableAnimations) {
       setTimeout(() => {
         this.scrollBlocked.set(false);
+        this.updateScrollBlock();
         if (this.lenis) {
           this.lenis.start();
           this.startLenisRaf();
@@ -37,6 +40,7 @@ export class App implements AfterViewInit, OnDestroy {
     } else {
       setTimeout(() => {
         this.scrollBlocked.set(false);
+        this.updateScrollBlock();
         if (this.lenis) {
           this.lenis.start();
           this.startLenisRaf();
@@ -45,29 +49,46 @@ export class App implements AfterViewInit, OnDestroy {
     }
   }
 
-  private initLenis() {
-    setTimeout(() => {
-      const contenidoElement = this.contenidoRef?.nativeElement;
-      if (contenidoElement) {
-        this.lenis = new Lenis({
-          wrapper: contenidoElement,
-          content: contenidoElement,
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: 'vertical',
-          gestureOrientation: 'vertical',
-          smoothWheel: true,
-          wheelMultiplier: 1,
-          touchMultiplier: 2,
-          infinite: false,
-        });
+  private updateScrollBlock() {
+    if (typeof document !== 'undefined') {
+      if (this.scrollBlocked()) {
+        document.body.classList.add('scroll-blocked');
+        document.documentElement.classList.add('scroll-blocked');
+      } else {
+        // Desbloquear el scroll y asegurar que funcione correctamente
+        document.body.classList.remove('scroll-blocked');
+        document.documentElement.classList.remove('scroll-blocked');
+        // Asegurar que el scroll pueda funcionar normalmente después del desbloqueo
+        document.body.style.position = '';
+        document.body.style.height = '';
+        document.body.style.width = '';
+        document.documentElement.style.position = '';
+        document.documentElement.style.height = '';
+        document.documentElement.style.width = '';
+      }
+    }
+  }
 
-        // Detener Lenis inicialmente si el scroll está bloqueado
-        if (this.scrollBlocked()) {
-          this.lenis.stop();
-        } else {
-          this.startLenisRaf();
-        }
+  private initLenis() {
+    // Esperar a que el DOM esté completamente renderizado
+    setTimeout(() => {
+      // Configuración de Lenis para scroll suave en toda la página
+      this.lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        touchMultiplier: 2,
+        infinite: false,
+      });
+
+      // Detener Lenis inicialmente si el scroll está bloqueado
+      if (this.scrollBlocked()) {
+        this.lenis.stop();
+      } else {
+        this.startLenisRaf();
       }
     }, 100);
   }
