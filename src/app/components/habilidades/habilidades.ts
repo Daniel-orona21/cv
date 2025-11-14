@@ -49,9 +49,14 @@ export class Habilidades implements AfterViewInit, OnDestroy {
   private animacionesDesktop(cuerpoElement: HTMLElement, scroller: any) {
     const textosElement = this.textos.nativeElement;
     const h1Elements = textosElement.querySelectorAll('h1');
+    const lineas = cuerpoElement.querySelectorAll('.linea');
+    const contenedores = cuerpoElement.querySelectorAll('.contenedor');
 
     gsap.set(h1Elements, { letterSpacing: '28px', opacity: 0 });
+    gsap.set(lineas, { width: '0%' });
+    gsap.set(contenedores, { x: -100, opacity: 0 });
 
+    // Animación del título
     gsap.timeline({
       scrollTrigger: {
         trigger: cuerpoElement,
@@ -68,6 +73,40 @@ export class Habilidades implements AfterViewInit, OnDestroy {
       stagger: 0.5,
       ease: 'power2.out'
     });
+
+    // Animación de líneas y contenedores
+    lineas.forEach((linea, index) => {
+      const contenedor = contenedores[index];
+      
+      // Animación de la línea
+      gsap.to(linea, {
+        width: '100%',
+        scrollTrigger: {
+          trigger: linea,
+          scroller,
+          start: 'top 85%',
+          end: 'top 60%',
+          scrub: 1,
+        },
+        ease: 'power2.out'
+      });
+
+      // Animación del contenedor (si existe)
+      if (contenedor) {
+        gsap.to(contenedor, {
+          x: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: contenedor,
+            scroller,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 1,
+          },
+          ease: 'power2.out'
+        });
+      }
+    });
   }
 
   // --------------------------------------------
@@ -76,9 +115,14 @@ export class Habilidades implements AfterViewInit, OnDestroy {
   private animacionesMobile(cuerpoElement: HTMLElement, scroller: any) {
     const textosElement = this.textos.nativeElement;
     const h1Elements = textosElement.querySelectorAll('h1');
+    const lineas = cuerpoElement.querySelectorAll('.linea');
+    const contenedores = cuerpoElement.querySelectorAll('.contenedor');
 
     gsap.set(h1Elements, { letterSpacing: '28px', opacity: 0 });
+    gsap.set(lineas, { width: '0%' });
+    gsap.set(contenedores, { x: -100, opacity: 0 });
 
+    // Animación del título
     gsap.timeline({
       scrollTrigger: {
         trigger: cuerpoElement,
@@ -94,6 +138,40 @@ export class Habilidades implements AfterViewInit, OnDestroy {
       duration: 0.8,
       stagger: 0.3,
       ease: 'power1.out'
+    });
+
+    // Animación de líneas y contenedores
+    lineas.forEach((linea, index) => {
+      const contenedor = contenedores[index];
+      
+      // Animación de la línea
+      gsap.to(linea, {
+        width: '100%',
+        scrollTrigger: {
+          trigger: linea,
+          scroller,
+          start: 'top 85%',
+          end: 'top 60%',
+          scrub: 1,
+        },
+        ease: 'power2.out'
+      });
+
+      // Animación del contenedor (si existe)
+      if (contenedor) {
+        gsap.to(contenedor, {
+          x: 0,
+          opacity: 1,
+          scrollTrigger: {
+            trigger: contenedor,
+            scroller,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 1,
+          },
+          ease: 'power2.out'
+        });
+      }
     });
   }
 }
