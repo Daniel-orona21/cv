@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
 * {
     margin: 0;
     box-sizing: border-box;
@@ -35,5 +37,84 @@ html, body {
   src: url('./assets/fuentes/juana-thin.otf') format('opentype');
      font-weight: normal;
     font-style: normal;
-    
+}
+
+//alt
+@font-face {
+  font-family: 'Joyride alt';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideALT.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride alt italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideALTItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride alt outline';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideALTOutline.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride alt outline italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideALTOutlineItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+
+//ext
+@font-face {
+  font-family: 'Joyride ext';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideEXT.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride ext italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideExtItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride ext outline';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideExtOutline.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride ext outline italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideExtOutlineItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+
+
+
+//std
+@font-face {
+  font-family: 'Joyride std';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideSTD.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride std italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideSTDItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride std outline';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideSTDOutline.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+  font-family: 'Joyride std outline italic';
+  src: url('./assets/fuentes/Joyride-Font/JoyrideSTDOutlineItalic.otf') format('opentype');
+     font-weight: normal;
+    font-style: normal;
 }

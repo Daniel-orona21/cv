@@ -76,7 +76,7 @@ export class Sobremi implements AfterViewInit, OnDestroy {
     const img = this.imgElement.nativeElement;
 
     gsap.to(img, {
-      y: -150,
+      y: 200,
       opacity: 1,
       ease: 'none',
       scrollTrigger: {
@@ -141,7 +141,7 @@ export class Sobremi implements AfterViewInit, OnDestroy {
     const img = this.imgElement.nativeElement;
 
     gsap.to(img, {
-      y: -80,
+      y: 100,
       opacity: 1,
       ease: 'none',
       scrollTrigger: {

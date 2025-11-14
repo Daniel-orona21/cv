@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+Expanded:ital,wght@0,200..900;1,200..900&display=swap');
+
 
 .cuerpo {
     height: 100vh;
@@ -84,7 +84,7 @@
                 img {
                     display: flex;
                     position: absolute;
-
+                    top: -40%;
                     width: 100%;
                 }
             }
@@ -219,9 +219,6 @@
                     display: flex;
                     position: absolute;
                     width: 100%;
-                    top: 70%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
                 }
             }
 

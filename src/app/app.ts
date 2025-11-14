@@ -15,7 +15,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
   protected readonly title = signal('cv');
   
   // Opción para activar/desactivar animaciones (cambiar a false para desarrollo)
-  protected readonly enableAnimations = true;
+  protected readonly enableAnimations = false;
   
   @HostBinding('class.animations-disabled') get animationsDisabled() {
     return !this.enableAnimations;
