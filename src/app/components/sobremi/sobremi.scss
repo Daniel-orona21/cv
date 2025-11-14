@@ -125,3 +125,139 @@
 
     }
 }
+
+@media (max-width: 768px) {
+    .cuerpo {
+    height: 110vh;
+    // border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 90vw;
+    max-width: 1800px;
+    // background-color: green;
+    flex-direction: column;
+
+    .der {
+        max-width: 100%;
+        width: 100%;
+        // background-color: yellow;
+    }
+
+    .izq {
+        // background-color: blue;
+        justify-content: center;
+        padding-bottom: 1rem !important;
+        padding-top: 2rem;
+        margin-right: 0rem !important;
+
+        p {
+            font-size: 24px;
+            line-height: 1.5;
+        }
+
+        .noMovil {
+            // display: none;
+        }
+
+        .textos {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+            bottom: 0;
+            left: 0;
+
+            .uno {
+                font-weight: 100;
+            }
+
+            .dos {
+                font-weight: 500;
+            }
+
+            .tres {
+                margin-right: 1rem;
+            }
+
+             h1 {
+            font-family: "Zalando Sans Expanded", sans-serif;
+            bottom: 0;
+            left: 0;
+            font-size: 11vw;
+            font-weight: 900;
+            font-style: italic;
+        }
+        }
+    }
+
+    .side {
+        height: 75%;
+        max-height: 75%;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        gap: 2rem;
+
+       
+
+        .contenedor {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            flex-direction: column;
+            display: flex;
+
+            .imagen {
+                flex: 1 !important;
+                width: 100%;
+                display: flex;
+                position: relative;
+                overflow: hidden;
+
+                img {
+                    display: flex;
+                    position: absolute;
+                    width: 100%;
+                    top: 70%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+
+            .nombre {
+                display: flex;
+                flex-direction: row;
+                padding: .5rem 0 ;
+                justify-content: space-between;
+                align-items: center;
+
+                
+
+                p {
+                white-space: nowrap;
+                }
+            .daniel {
+                // font-family: "Juana Sans", sans-serif;
+                font-family: "Zalando Sans Expanded", sans-serif;
+                font-weight: 100;
+                font-size: 1.1rem !important;
+                
+            } 
+            
+            .exp {
+                font-size: .8rem;
+                margin-top: 0px;
+                font-family: "Zalando Sans Expanded", sans-serif;
+                font-weight: 100;
+            }
+
+            .linea {
+                font-weight: 100;
+            }
+        }
+        }
+
+    }
+}
+}

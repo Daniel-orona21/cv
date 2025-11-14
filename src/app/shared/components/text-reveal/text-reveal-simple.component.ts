@@ -21,10 +21,10 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     gsap.registerPlugin(ScrollTrigger);
-    
+
     this.words = this.text.split(' ');
     this.wordRevealed = new Array(this.words.length).fill(false);
-    
+
     setTimeout(() => {
       this.setupScrollTrigger();
     }, 100);
@@ -36,19 +36,15 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
 
   private setupScrollTrigger() {
     const container = this.container.nativeElement;
-    
     const scroller = window;
 
     const currentParagraph = container.closest('p') as HTMLElement;
-    if (!currentParagraph) {
-      console.log('No se encontró el párrafo actual');
-      return;
-    }
+    if (!currentParagraph) return;
 
     const parentElement = container.closest('.side');
     let usePreviousTrigger = false;
     let previousParagraph: HTMLElement | null = null;
-    
+
     if (parentElement) {
       const paragraphs = Array.from(parentElement.querySelectorAll('p'));
       const currentIndex = paragraphs.indexOf(currentParagraph);
@@ -58,33 +54,55 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
       }
     }
 
-    const triggerElement = usePreviousTrigger && previousParagraph 
-      ? previousParagraph 
+    const triggerElement = usePreviousTrigger && previousParagraph
+      ? previousParagraph
       : (container.closest('.contenedor') || container.closest('.side') || currentParagraph || container);
-    
-    if (!triggerElement) {
-      console.log('No se encontró el elemento trigger');
-      return;
-    }
 
-    let startPosition: string;
-    let endPosition: string;
-    
-    if (usePreviousTrigger && previousParagraph) {
-      startPosition = 'bottom 80%'; 
-      endPosition = 'bottom 40%';   
-    } else {
-      startPosition = 'top 80%';
-      endPosition = 'top 40%';
-    }
+    if (!triggerElement) return;
 
-    console.log('Configurando scroll trigger para palabras', { 
-      triggerElement, 
-      scroller, 
-      usePreviousTrigger,
-      startPosition,
-      endPosition 
+    // --------------------------------------------------------
+    // 📌 matchMedia: Desktop y Mobile
+    // --------------------------------------------------------
+    ScrollTrigger.matchMedia({
+
+      // 🟦 Desktop
+      "(min-width: 769px)": () => {
+        this.createRevealAnimations({
+          triggerElement,
+          scroller,
+          usePreviousTrigger,
+          start: usePreviousTrigger ? 'bottom 80%' : 'top 80%',
+          end: usePreviousTrigger ? 'bottom 40%' : 'top 40%',
+          scrub: 1
+        });
+      },
+
+      // 🟩 Mobile (max 768px)
+      "(max-width: 768px)": () => {
+        this.createRevealAnimations({
+          triggerElement,
+          scroller,
+          usePreviousTrigger,
+          start: usePreviousTrigger ? 'top 55%' : 'top 55%',
+          end: usePreviousTrigger ? 'top 20%' : 'top 35%',
+          scrub: 0.6 // más rápido y suave en móvil
+        });
+      }
+
     });
+  }
+
+  // --------------------------------------------------------
+  // 🔥 Función común para Desktop y Mobile
+  // --------------------------------------------------------
+  private createRevealAnimations(config: {
+    triggerElement: any,
+    scroller: any,
+    usePreviousTrigger: boolean,
+    start: string,
+    end: string,
+    scrub: number
+  }) {
 
     this.words.forEach((word, index) => {
       const start = index / this.words.length;
@@ -92,11 +110,11 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: triggerElement,
-          scroller: scroller,
-          start: startPosition,
-          end: endPosition,
-          scrub: 1,
+          trigger: config.triggerElement,
+          scroller: config.scroller,
+          start: config.start,
+          end: config.end,
+          scrub: config.scrub,
         }
       });
 
@@ -104,6 +122,7 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
         duration: 1,
         onUpdate: () => {
           const progress = tl.progress();
+
           if (progress >= start && progress <= end) {
             this.wordRevealed[index] = true;
           } else if (progress < start) {
@@ -111,10 +130,10 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
           } else {
             this.wordRevealed[index] = true;
           }
+
           this.cdr.detectChanges();
         }
       });
     });
   }
 }
-
