@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Sobremi } from "./components/sobremi/sobremi";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Habilidades } from "./components/habilidades/habilidades";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sobremi],
+  imports: [RouterOutlet, Sobremi, Habilidades],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

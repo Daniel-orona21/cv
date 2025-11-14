@@ -1,0 +1,36 @@
+.cuerpo {
+    width: 90vw;
+    min-height: 50dvh;
+    display: flex;
+    padding: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    .textos {
+            display: flex;
+            flex-direction: row;
+            position: relative;
+
+
+            .uno {
+                font-weight: 100;
+            }
+
+            .dos {
+                font-weight: 500;
+            }
+
+            .tres {
+
+            }
+
+             h1 {
+            font-family: "Zalando Sans Expanded", sans-serif;
+            bottom: 0;
+            left: 0;
+            font-size: 7vw;
+            font-weight: 900;
+            font-style: italic;
+        }
+        }
+}
