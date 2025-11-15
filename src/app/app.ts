@@ -4,10 +4,11 @@ import { Sobremi } from "./components/sobremi/sobremi";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Habilidades } from "./components/habilidades/habilidades";
+import { Proyectos } from "./components/proyectos/proyectos";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sobremi, Habilidades],
+  imports: [RouterOutlet, Sobremi, Habilidades, Proyectos],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
