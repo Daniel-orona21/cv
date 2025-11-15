@@ -122,7 +122,6 @@ export class Habilidades implements AfterViewInit, OnDestroy {
     gsap.set(lineas, { width: '0%' });
     gsap.set(contenedores, { x: -100, opacity: 0 });
 
-    // Animación del título
     gsap.timeline({
       scrollTrigger: {
         trigger: cuerpoElement,
@@ -140,11 +139,9 @@ export class Habilidades implements AfterViewInit, OnDestroy {
       ease: 'power1.out'
     });
 
-    // Animación de líneas y contenedores
     lineas.forEach((linea, index) => {
       const contenedor = contenedores[index];
       
-      // Animación de la línea
       gsap.to(linea, {
         width: '100%',
         scrollTrigger: {

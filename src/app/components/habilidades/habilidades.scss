@@ -17,13 +17,12 @@
                 left: 0;
                 font-size: 7vw;
                 text-transform: uppercase;
-                font-weight: normal;
+
                 letter-spacing: 0px;
                 white-space: nowrap;
 
                 strong {
                     font-family: "Joyride alt outline italic", sans-serif;
-                    font-weight: normal;
                 }
         }
         }
@@ -59,9 +58,6 @@
         box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.35);
         transition: opacity 0.3s ease, transform 0.3s ease;
         opacity: 0;
-    }
-
-    .notransform {
     }
     
     .imagenI {
@@ -108,6 +104,7 @@
         position: relative !important;
         transform: none ;
         opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
     }
     
     &:hover {
@@ -137,6 +134,7 @@
         .logo {
             opacity: 1;
             transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
             
             &:first-child {
                 transition-delay: 0s;
@@ -161,7 +159,7 @@
         white-space: nowrap;
 
         strong {
-            font-family: "Joyride alt outline italic", sans-serif;
+            font-family: "Joyride alt", sans-serif;
             font-weight: normal;
         }
     }
@@ -181,15 +179,126 @@
 
     .contenido {
       .contenedor {
-        padding: 3rem;
+        padding: 2rem .5rem;
+        // align-items: flex-start;
         gap: .5rem;
+
           h1 {
-            font-size: 10vw;
+            font-size: 6vw;
+            text-transform: uppercase;
           }
 
           p {
+            max-width: 55%;
+            font-size: 12px;
             text-align: center;
           }
       }
+
+        .contenedor {
+    img {
+        top: 50%;
+        max-width: 4rem;
+        position: absolute;
+        object-fit: contain;
+        transform: translateY(calc(-50% + 10px));
+        box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.35);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        opacity: 0;
+    }
+    
+    .imagenI {
+        left: 5%;
+        border-radius: 15px;
+        transform: rotate(0deg) translateY(calc(-50% + 10px));
+    }
+    .norotate {
+        transform: rotate(0deg) translateY(calc(-50% + 10px));
+    }
+    .der {
+        right: 5%;
+    }
+    .imagenD {
+        right: 5% !important;
+    }
+    .imagenLarga {
+        max-width: 4rem;
+    }
+    .sinsombra {
+        box-shadow: none;
+    }
+
+    .lenguajes {
+        top: 50%;
+        position: absolute;
+        display: flex;
+        right: 5%;
+        gap: .5rem;
+        transform: translateY(-50%);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        opacity: 1;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .logo {
+        box-shadow: none;
+        filter: drop-shadow(0px 10px 15px rgba(0, 0, 0, 0.35));
+        max-width: 2.5rem;
+        position: relative !important;
+        transform: none ;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .nologo {
+        display: none;
+    }
+    
+    &:hover {
+        background-color: #2CDC6E;
+        
+        .imagenI, .imagenD, .der {
+            opacity: 1;
+            // transform: rotate(-10deg) translateY(0%);
+        }
+
+        .imagenD {
+            transform: rotate(180deg) translateY(50%);
+        }
+
+        .imagenI {
+            transform: rotate(-5deg) translateY(-50%);
+        }
+        .der {
+            transform: rotate(0deg) translateY(-50%);
+        }
+        .norotate {
+            transform: rotate(0deg) translateY(-50%);
+        }
+        
+
+        
+        .logo {
+            opacity: 1;
+            transform: translateY(-0px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            
+            &:first-child {
+                transition-delay: 0s;
+            }
+            
+            &:nth-child(2) {
+                transition-delay: 0.1s;
+            }
+            
+            &:nth-child(3) {
+                transition-delay: .2s;
+            }
+            
+        }
+    }
+  }
     }
 }
