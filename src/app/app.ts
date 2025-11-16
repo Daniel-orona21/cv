@@ -1,16 +1,14 @@
 import { Component, signal, AfterViewInit, OnDestroy, HostBinding, ElementRef, ViewChild, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Sobremi } from "./components/sobremi/sobremi";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Habilidades } from "./components/habilidades/habilidades";
-import { Proyectos } from "./components/proyectos/proyectos";
 import { ImagesComponent } from "./components/images/images.component";
 import { FooterComponent } from "./components/footer/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sobremi, Habilidades, Proyectos, ImagesComponent, FooterComponent],
+  imports: [ Sobremi, Habilidades, ImagesComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
