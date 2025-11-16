@@ -1,6 +1,6 @@
 .cuerpo {
     width: 100vw;
-    min-height: 100vh;
+    // min-height: ;
     display: flex;
     padding-top: 1rem;  
     align-items: center;
@@ -17,12 +17,13 @@
                 left: 0;
                 font-size: 7vw;
                 text-transform: uppercase;
-
+                font-weight: normal;
                 letter-spacing: 0px;
                 white-space: nowrap;
 
                 strong {
                     font-family: "Joyride alt outline italic", sans-serif;
+                    font-weight: normal;
                 }
         }
         }

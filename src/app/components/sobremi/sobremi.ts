@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
 import { TextRevealSimpleComponent } from '../../shared/components/text-reveal/text-reveal-simple.component';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -10,11 +10,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   styleUrl: './sobremi.scss',
 })
 export class Sobremi implements AfterViewInit, OnDestroy {
+  @Input() scroller: HTMLElement | ElementRef<HTMLElement> | null = null;
   @ViewChild('cuerpo') cuerpo!: ElementRef<HTMLElement>;
   @ViewChild('textos') textos!: ElementRef<HTMLElement>;
   @ViewChild('imagen') imagen!: ElementRef<HTMLElement>;
   @ViewChild('imgElement') imgElement!: ElementRef<HTMLImageElement>;
   @ViewChild('nombre') nombre!: ElementRef<HTMLElement>;
+  
+  get scrollerElement(): HTMLElement | Window {
+    return this.scroller 
+      ? (this.scroller instanceof ElementRef ? this.scroller.nativeElement : this.scroller)
+      : window;
+  }
 
   ngAfterViewInit() {
     gsap.registerPlugin(ScrollTrigger);
@@ -29,7 +36,10 @@ export class Sobremi implements AfterViewInit, OnDestroy {
   }
 
   private setupAnimations() {
-    const scroller = window;
+    // Usar el scroller pasado o window como fallback
+    const scroller = this.scroller 
+      ? (this.scroller instanceof ElementRef ? this.scroller.nativeElement : this.scroller)
+      : window;
     const cuerpoElement = this.cuerpo.nativeElement;
 
     ScrollTrigger.matchMedia({

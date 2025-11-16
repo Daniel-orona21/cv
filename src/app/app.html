@@ -1,12 +1,12 @@
-<div class="cuerpo">
+<div class="cuerpo" #cuerpo [class.scroll]="!scrollBlocked()">
   <div class="header">
     <h1 class="logo">D</h1>
     <ul>
-      <li><a href="">Proyectos</a></li>
-      <li><a href="">Contacto</a></li>
+      <li><a (click)="scrollTo('portafolio')">Portafolio</a></li>
+      <li><a (click)="scrollTo('footer')">Contacto</a></li>
     </ul>
   </div>
-  <div class="contenido" #contenido [class.scroll-blocked]="scrollBlocked()">
+  <div id="inicio" class="contenido" #contenido [class.scroll-blocked]="scrollBlocked()">
     <div class="saludo">
       <div class="textos">
         <h1 class="typing-demo">Hola, bienvenido.</h1>
@@ -17,8 +17,20 @@
         </p>
       </div>
     </div>
-      <app-sobremi></app-sobremi>
-      <app-habilidades></app-habilidades>
-      <app-proyectos/>
+    <div class="secciones">
+      <div id="sobremi" class="seccion">
+        <app-sobremi [scroller]="cuerpo"></app-sobremi>
+      </div>
+      <div id="habilidades" class="seccion">
+        <app-habilidades [scroller]="cuerpo"></app-habilidades>
+      </div>
+      <!-- <div class="seccion">
+        <app-proyectos/>
+      </div> -->
+      <div id="portafolio" class="seccion">
+        <app-images [scroller]="cuerpo" />
+      </div>
+      <app-footer id="footer"/>
+    </div>
   </div>
 </div>

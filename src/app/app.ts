@@ -5,10 +5,12 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Habilidades } from "./components/habilidades/habilidades";
 import { Proyectos } from "./components/proyectos/proyectos";
+import { ImagesComponent } from "./components/images/images.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Sobremi, Habilidades, Proyectos],
+  imports: [RouterOutlet, Sobremi, Habilidades, Proyectos, ImagesComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -16,7 +18,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
   protected readonly title = signal('cv');
   
   // Opción para activar/desactivar animaciones (cambiar a false para desarrollo)
-  protected readonly enableAnimations = false;
+  protected readonly enableAnimations = true;
   
   @HostBinding('class.animations-disabled') get animationsDisabled() {
     return !this.enableAnimations;
@@ -26,6 +28,7 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
   private scrollPreventHandler?: (e: Event) => void;
   private keydownPreventHandler?: (e: KeyboardEvent) => void;
   
+  @ViewChild('cuerpo') cuerpo!: ElementRef<HTMLElement>;
   @ViewChild('contenido') contenido!: ElementRef<HTMLElement>;
 
   ngOnInit() {
@@ -38,18 +41,90 @@ export class App implements OnInit, AfterViewInit, OnDestroy {
     
     this.updateScrollBlock();
     
+    // Configurar ScrollTrigger para usar .cuerpo como scroller cuando tiene clase .scroll
+    if (this.cuerpo && !this.scrollBlocked()) {
+      const cuerpoEl = this.cuerpo.nativeElement;
+      if (cuerpoEl.classList.contains('scroll')) {
+        ScrollTrigger.scrollerProxy(cuerpoEl, {
+          scrollTop(value?: number) {
+            if (arguments.length) {
+              cuerpoEl.scrollTop = value!;
+            }
+            return cuerpoEl.scrollTop;
+          },
+          getBoundingClientRect() {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight
+            };
+          },
+          pinType: cuerpoEl.style.transform ? "transform" : "fixed"
+        });
+
+        // Actualizar ScrollTrigger cuando .cuerpo hace scroll
+        cuerpoEl.addEventListener('scroll', () => ScrollTrigger.update());
+      }
+    }
+    
     if (this.enableAnimations) {
       setTimeout(() => {
         this.scrollBlocked.set(false);
         this.updateScrollBlock();
         this.removeScrollPrevention();
+        this.setupScrollTrigger();
       }, 3300);
     } else {
       setTimeout(() => {
         this.scrollBlocked.set(false);
         this.updateScrollBlock();
         this.removeScrollPrevention();
+        this.setupScrollTrigger();
       }, 0);
+    }
+  }
+
+  scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+
+  el.scrollIntoView({ behavior: 'smooth' });
+}
+
+  private setupScrollTrigger() {
+    // Configurar ScrollTrigger para usar .cuerpo como scroller cuando tiene clase .scroll
+    if (this.cuerpo) {
+      const cuerpoEl = this.cuerpo.nativeElement;
+      if (cuerpoEl.classList.contains('scroll')) {
+        // Configurar el scroller proxy para .cuerpo
+        ScrollTrigger.scrollerProxy(cuerpoEl, {
+          scrollTop(value?: number) {
+            if (arguments.length) {
+              cuerpoEl.scrollTop = value!;
+            }
+            return cuerpoEl.scrollTop;
+          },
+          getBoundingClientRect() {
+            return {
+              top: 0,
+              left: 0,
+              width: window.innerWidth,
+              height: window.innerHeight
+            };
+          },
+          pinType: cuerpoEl.style.transform ? "transform" : "fixed"
+        });
+
+        // Actualizar ScrollTrigger cuando .cuerpo hace scroll
+        const scrollHandler = () => ScrollTrigger.update();
+        cuerpoEl.addEventListener('scroll', scrollHandler);
+        
+        // Forzar actualización inicial después de un pequeño delay
+        setTimeout(() => {
+          ScrollTrigger.refresh();
+        }, 100);
+      }
     }
   }
 

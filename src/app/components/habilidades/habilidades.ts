@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -9,6 +9,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   styleUrl: './habilidades.scss',
 })
 export class Habilidades implements AfterViewInit, OnDestroy {
+  @Input() scroller: HTMLElement | ElementRef<HTMLElement> | null = null;
   @ViewChild('cuerpo') cuerpo!: ElementRef<HTMLElement>;
   @ViewChild('textos') textos!: ElementRef<HTMLElement>;
 
@@ -25,7 +26,10 @@ export class Habilidades implements AfterViewInit, OnDestroy {
   }
 
   private setupAnimations() {
-    const scroller = window;
+    // Usar el scroller pasado o window como fallback
+    const scroller = this.scroller 
+      ? (this.scroller instanceof ElementRef ? this.scroller.nativeElement : this.scroller)
+      : window;
     const cuerpoElement = this.cuerpo.nativeElement;
 
     ScrollTrigger.matchMedia({

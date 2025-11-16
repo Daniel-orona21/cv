@@ -12,6 +12,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 })
 export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
   @Input() text: string = '';
+  @Input() scroller: HTMLElement | ElementRef<HTMLElement> | null = null;
   @ViewChild('container') container!: ElementRef;
 
   words: string[] = [];
@@ -36,7 +37,10 @@ export class TextRevealSimpleComponent implements AfterViewInit, OnDestroy {
 
   private setupScrollTrigger() {
     const container = this.container.nativeElement;
-    const scroller = window;
+    // Usar el scroller pasado o window como fallback
+    const scroller = this.scroller 
+      ? (this.scroller instanceof ElementRef ? this.scroller.nativeElement : this.scroller)
+      : window;
 
     const currentParagraph = container.closest('p') as HTMLElement;
     if (!currentParagraph) return;
